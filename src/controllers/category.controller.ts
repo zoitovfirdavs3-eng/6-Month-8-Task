@@ -2,7 +2,7 @@ const { globalError, ClientError } = require("shokhijakhon-error-handler");
 const { CategoryModel, CarModel } = require("../models");
 
 module.exports = {
-  async CREATE_CATEGORY(req, res) {
+  async CREATE_CATEGORY(req: any, res: any) {
     try {
       let newCategory = req.body;
       let insertCategory = await CategoryModel.create(newCategory);
@@ -15,7 +15,7 @@ module.exports = {
       return globalError(err, res);
     }
   },
-  async GET_CATEGORIES(req, res) {
+  async GET_CATEGORIES(req: any, res: any) {
     try {
       let categories = await CategoryModel.findAll({
         attributes: {
@@ -31,7 +31,7 @@ module.exports = {
       return globalError(err, res);
     }
   },
-  async GET_CATEGORY(req, res) {
+  async GET_CATEGORY(req: any, res: any) {
     try {
       let { id } = req.params;
       let findCategory = await CategoryModel.findByPk(id, {
@@ -49,7 +49,7 @@ module.exports = {
       return globalError(err, res);
     }
   },
-  async GET_CATEGORY_CARS(req, res) {
+  async GET_CATEGORY_CARS(req: any, res: any) {
     try {
       const { id } = req.params;
       let findCategory = await CategoryModel.findByPk(id);
@@ -62,12 +62,12 @@ module.exports = {
       return globalError(err, res);
     }
   },
-  async REMOVE_CATEGORY(req, res) {
+  async REMOVE_CATEGORY(req: any, res: any) {
     try {
-      let { id } = req.pramas;
+      let { id } = req.params;
       let findCategory = await CategoryModel.findByPk(id);
       if (!findCategory) throw new ClientError("Category not found", 404);
-      await CarModel.destroy.apply({ where: { car_category: id } });
+      await CarModel.destroy({ where: { car_category: id } });
       await findCategory.destroy();
       return res.json({
         message: "Category successfully deleted",
@@ -77,7 +77,7 @@ module.exports = {
       return globalError(err, res);
     }
   },
-  async UPDATE_CATEGORY(req, res) {
+  async UPDATE_CATEGORY(req: any, res: any) {
     try {
       let updateData = req.body;
       let { id } = req.params;

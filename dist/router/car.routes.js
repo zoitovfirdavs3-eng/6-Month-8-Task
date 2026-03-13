@@ -1,8 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const express = require("express");
-const mainRouter = express.Router();
-// carRouter ni import qilamiz
-const carRouter = require("./car.routes");
-mainRouter.use("/cars", carRouter);
-module.exports = mainRouter;
+const { Router } = require("express");
+const carController = require("../controllers/car.controller");
+const carRouter = Router();
+carRouter.post("/create", carController.CREATE_CAR);
+carRouter.get("/all", carController.GET_CARS);
+carRouter
+    .route("/:id")
+    .get(carController.GET_CAR)
+    .put(carController.UPDATE_CAR)
+    .delete(carController.REMOVE_CAR);
+module.exports = carRouter;

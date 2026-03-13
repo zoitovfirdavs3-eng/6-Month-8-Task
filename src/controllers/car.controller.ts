@@ -2,14 +2,14 @@ const { globalError, ClientError } = require("shokhijakhon-error-handler");
 const { CarModel, CategoryModel } = require("../models");
 
 module.exports = {
-  async CREATE_CAR(req, res) {
+  async CREATE_CAR(req: any, res: any) {
     try {
       let newCar = req.body;
       let findCategory = await CategoryModel.findByPk(newCar.category_id);
       if (!findCategory) throw new ClientError("Category not found", 404);
       if (req.filename) {
         req.files.car_image.mv(
-          path.join(process.cwd(), "uploads", "carPhotos", req.filename),
+          require("path").join(process.cwd(), "uploads", "carPhotos", req.filename),
         );
       }
       let insertCar = await CarModel.create(newCar);
@@ -22,7 +22,7 @@ module.exports = {
       return globalError(err, res);
     }
   },
-  async GET_CARS(req, res) {
+  async GET_CARS(req: any, res: any) {
     try {
       let cars = await CarModel.findAll({
         attributes: {
@@ -38,7 +38,7 @@ module.exports = {
       return globalError(err, res);
     }
   },
-  async GET_CAR(req, res) {
+  async GET_CAR(req: any, res: any) {
     try {
       let { id } = req.params;
       const findCar = await CarModel.findByPk(id, {
@@ -56,7 +56,7 @@ module.exports = {
       return globalError(err, res);
     }
   },
-  async REMOVE_CAR(req, res) {
+  async REMOVE_CAR(req: any, res: any) {
     try {
       const { id } = req.params;
       const findCar = await CarModel.findByPk(id);
@@ -67,7 +67,7 @@ module.exports = {
       return globalError(err, res);
     }
   },
-  async UPDATE_CAR(req, res) {
+  async UPDATE_CAR(req: any, res: any) {
     try {
       const { id } = req.params;
       const findCar = await CarModel.findByPk(id);
